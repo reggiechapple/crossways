@@ -1,0 +1,31 @@
+<%- include ("../partials/header") %>
+<% if (login) { %>
+    <% var firstName = user.firstName %>
+    <p>Hello <span class="text-muted"><%= user.firstName %></span></p>
+<% } else { %>
+    <p>Hello <span class="text-muted">guest</span>. Would you like to <a style="text-decoration: none;" href="/user/register">register</a> or <a style="text-decoration: none;" href="/user/login">login</a>?</p>
+<% } %>
+
+<a href="/campaigns/new"><button type="button" class="btn btn-primary">Create Campaign</button></a>
+
+<% if (campaigns) { %>
+    <main>
+        <ul>
+            <% campaigns.reverse().forEach(campaign => { %>
+                <li>
+                    <h2><%= campaign.name %></h2>
+                    <p>
+                        <% if (campaign.description.length > 30) { %>
+                            <%= campaign.description.substring(0, 30) %>
+                        <% } else { %>
+                            <%= campaign.description %>
+                        <% } %>
+                    </p>
+                    <p><%= campaign.initiator.firstName %></p>
+                </li>
+            <% }) %>
+        </ul>
+    </main>
+<% } %>
+
+<%- include("../partials/footer") %>
