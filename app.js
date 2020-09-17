@@ -18,6 +18,8 @@ dotenv.config();
 const postRoutes = require("./routes/posts");
 const userRoutes = require("./routes/users");
 const campaignRoutes = require("./routes/campaigns");
+const donationRoutes = require("./routes/donations");
+
 const MONGODB_URI = "mongodb://localhost:27017/cways";
 
 const app = express();
@@ -70,6 +72,7 @@ app.use((req, res, next) => {
 app.use("/", userRoutes);
 app.use("/", postRoutes);
 app.use("/", campaignRoutes);
+app.use("/", donationRoutes);
 
 const server = app.listen(port, () => {
     console.log("App is running on port " + port);

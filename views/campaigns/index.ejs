@@ -13,7 +13,7 @@
         <ul>
             <% campaigns.reverse().forEach(campaign => { %>
                 <li>
-                    <h2><%= campaign.name %></h2>
+                    <h2><a href="/campaigns/<%= campaign._id %>"><%= campaign.name %></a></h2>
                     <p>
                         <% if (campaign.description.length > 30) { %>
                             <%= campaign.description.substring(0, 30) %>
@@ -22,6 +22,7 @@
                         <% } %>
                     </p>
                     <p><%= campaign.initiator.firstName %></p>
+                    <a href="/campaigns/<%= campaign._id %>/volunteer"><button type="button" class="btn btn-primary">Volunteer</button></a>
                 </li>
             <% }) %>
         </ul>

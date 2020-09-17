@@ -44,7 +44,31 @@ let UserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Campaign"
         }
-    ]
+    ],
+    work: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Campaign"
+        }
+    ],
+    donations: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Donation"
+        }
+    ],
+    events: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Event"
+        }
+    ],
+    causes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Cause"
+        }
+    ],
 });
 
 UserSchema.plugin(passportLocalMongoose);

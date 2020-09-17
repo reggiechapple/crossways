@@ -1,0 +1,2 @@
+users will recieve post streams centered around causes.
+post will have cause categories.
