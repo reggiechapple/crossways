@@ -1,6 +1,4 @@
-<%- include ("../partials/header") %>
-<link rel="stylesheet" href="/posts/index.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<%- include ("../partials/dashHead") %>
 <% if (login) { %>
     <% var firstName = user.firstName %>
     <p>Hello <span class="text-muted"><%= user.firstName %></span></p>
@@ -44,4 +42,4 @@
 </main>
 <% } %>
 
-<%- include("../partials/footer") %>
+<%- include("../partials/dashFoot") %>

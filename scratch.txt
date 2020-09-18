@@ -1,2 +1,11 @@
 users will recieve post streams centered around causes.
 post will have cause categories.
+
+.allports: 1C6888
+.froly: EA777A
+.linen: FFF5E9
+.off-green: E0EDE3
+
+include nav
+hide dropdown menus for both side bars
+hide sidebars on mobile

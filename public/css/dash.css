@@ -1,0 +1,22 @@
+body {
+  height:100%;
+  width:100%;
+}
+#content {
+  margin-top: 0px;
+  overflow-y: scroll;
+  height: 100vh;
+}
+#page-wrapper {
+  height: 100vh;
+}
+
+main {
+  margin: var(--header) 0 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 0 0 0;
+  grid-column-gap: 12px;
+  grid-template-areas: "nav feed services";
+  height: calc(100vh - var(--header));
+}
