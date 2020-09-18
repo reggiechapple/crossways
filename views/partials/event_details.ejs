@@ -12,10 +12,11 @@
         <p><%= event.startTime %></p>
         <p><%= event.endTime %></p>
         <p><%= event.maxAttendees %></p>
+        <p><%= event.attendees.length %> </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <a href="/events/<%= event._id %>/attend" class="btn btn-primary">Attend</a>
       </div>
     </div>
   </div>
