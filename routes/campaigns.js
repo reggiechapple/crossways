@@ -37,12 +37,39 @@ router.get("/campaigns", isLoggedIn, (req, res) => {
     });
 });
 
+// New Post GET Route
+router.get("/campaigns/new", isLoggedIn, (req, res) => {
+  res.render("campaigns/new");
+});
+
+// New Campaign POST Route
+router.post("/campaigns/new", isLoggedIn, (req, res) => {
+  if (req.body.name) {
+      let newCampaign = {};
+      newCampaign.name = req.body.name;
+      newCampaign.initiator = req.user;
+      newCampaign.description = req.body.description;
+      newCampaign.fundsNeeded = req.body.fundsNeeded;
+      newCampaign.fundsRaised = 0;
+      newCampaign.volunteersNeeded = req.body.volunteersNeeded;
+      newCampaign.isOpen = true;
+      return createCampaign(newCampaign, req, res);
+  }
+});
+
+
 router.get("/campaigns/:id", isLoggedIn, (req, res) => {
     Campaign.findById(req.params.id)
         .populate("volunteers")
         .populate("volunteerRequests")
         .populate("initiator")
-        .populate("events")
+        .populate({
+          path: 'events',
+          populate: {
+            path: 'attendees',
+            model: 'User'
+          }
+       })
         .populate({
             path: 'donations',
             populate: {
@@ -60,39 +87,6 @@ router.get("/campaigns/:id", isLoggedIn, (req, res) => {
             }
         });
 });
-
-// New Post GET Route
-router.get("/campaigns/new", isLoggedIn, (req, res) => {
-    res.render("campaigns/new");
-});
-
-// New Campaign POST Route
-router.post("/campaigns/new", isLoggedIn, (req, res) => {
-    if (req.body.name) {
-        let newCampaign = {};
-        newCampaign.name = req.body.name;
-        newCampaign.initiator = req.user;
-        newCampaign.description = req.body.description;
-        newCampaign.fundsNeeded = req.body.fundsNeeded;
-        newCampaign.fundsRaised = 0;
-        newCampaign.volunteersNeeded = req.body.volunteersNeeded;
-        newCampaign.isOpen = true;
-        return createCampaign(newCampaign, req, res);
-    }
-});
-
-// helper function for the /post/new POST route
-function createCampaign(newCampaign, req, res) {
-    Campaign.create(newCampaign, (err, campaign) => {
-        if (err) {
-            console.log(err);
-        } else {
-            req.user.campaigns.push(campaign._id);
-            req.user.save();
-            res.redirect("/campaigns");
-        }
-    });
-}
 
 router.get("/campaigns/:id/volunteer", isLoggedIn, (req, res) => {
     // First finding the logged in user
@@ -276,5 +270,65 @@ router.post("/campaigns/:id/new-event", isLoggedIn, (req, res) => {
         }
     });
 });
+
+router.get("/events/:id/attend", isLoggedIn, (req, res) => {
+  Event.findById(req.params.id, (err, event) => {
+    if (err) {
+      console.log(err);
+      req.flash(
+        "error",
+        "There has been an error finding the campaign."
+      );
+      res.redirect("back");
+    }
+    else {
+      User.findById(req.user._id, (err, user) => {
+        let ea = event.attendees.find(o =>
+          o._id.equals(user._id));
+      
+        if (!ea) {
+          event.attendees.push(user);
+          event.save();
+
+          user.events.push(event);
+          user.save();
+
+          req.flash(
+              "success",
+              `You have been added to ${event.name}!`
+          );
+          res.redirect("back");
+        }
+        else if (ea) {
+          req.flash(
+            "error",
+            `You have already been added to ${event.name}!`
+          );
+          res.redirect("back");
+        }
+        else {
+            req.flash(
+                "error",
+                "There has been an error, is the profile you are trying to add on your requests?"
+            );
+            res.redirect("back");
+        }
+      });
+    }
+  });
+});
+
+// helper function for the /post/new POST route
+function createCampaign(newCampaign, req, res) {
+  Campaign.create(newCampaign, (err, campaign) => {
+      if (err) {
+          console.log(err);
+      } else {
+          req.user.campaigns.push(campaign._id);
+          req.user.save();
+          res.redirect("/campaigns");
+      }
+  });
+}
 
 module.exports = router;

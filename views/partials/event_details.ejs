@@ -13,10 +13,19 @@
         <p><%= event.endTime %></p>
         <p><%= event.maxAttendees %></p>
         <p><%= event.attendees.length %> </p>
+        <ul>
+        <% event.attendees.forEach(attendee => { %>
+
+          <li>
+            <%= attendee.firstName %> 
+          </li>
+         
+        <% }) %>
+      </ul>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="/events/<%= event._id %>/attend" class="btn btn-primary">Attend</a>
+        <a href="/events/<%= event._id %>/attend"><button type="button" class="btn btn-primary">Attend</button></a>
       </div>
     </div>
   </div>

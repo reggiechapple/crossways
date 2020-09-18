@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/User");
 const Campaign = require("../models/Campaign");
-const Donation = require("../models/Donation");
+const Event = require("../models/Event");
 
 const router = express.Router();
 
